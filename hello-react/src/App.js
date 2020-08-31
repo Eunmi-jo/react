@@ -1,9 +1,9 @@
-import React from 'react';      //OR연산자 사용.
+import React from 'react';
 import './App.css';
 
 function App() {
 const name = undefined;
-return name || '값이 undefined입니다.';
+return <div>{name}</div>;
 }
 
 export default App;
