@@ -1,26 +1,10 @@
-import React from 'react';      //react를 불러와서 사용할 수 있게 해줌.
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';      //작동하지 않음.
 
-function App() {              //App 컴포넌트 생성.
+function App() {              
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <h1> 리액트 안녕!</h1>
+    <h2>잘 작동하니?</h2>
+  )
 }
 
 export default App;
