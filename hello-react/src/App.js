@@ -1,9 +1,10 @@
-import React from 'react';        //Fragment를 사용한 다른 경우.
+import React from 'react';        //js값을 jsx 안에 레더링 한 경우.
  
 function App() {
+  const name = '리액트';
   return (
     <>
-      <h1>리액트 안녕!</h1>
+      <h1>{name} 안녕!</h1>
       <h2>잘 작동하니?</h2>
     </>
   );
