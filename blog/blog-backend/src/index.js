@@ -10,7 +10,9 @@ app.use((ctx, next) => {
         ctx.status = 401; // Unauthorized
         return;
     }
-    next();
+    next().then(() => {
+        console.log('END');
+    });
 });
 
 app.use((ctx, next) => {
