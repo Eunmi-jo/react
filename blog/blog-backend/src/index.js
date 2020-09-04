@@ -1,11 +1,12 @@
 const Koa = require('koa');
 
+
 const app = new Koa();
 
 app.use((ctx, next) => {
     console.log(ctx.url);
     console.log(1);
-    next();
+    // next();
 });
 
 app.use((ctx, next) => {
