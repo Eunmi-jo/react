@@ -8,13 +8,15 @@ const router = new Router();
 router.get('/', ctx => {
     ctx.body = '홈';
 });
-router.get('/about', ctx => {
-    ctx.body = '소개';
-});
 
-// app 인스턴스에 라우터 적용
-app.use(router.routes()).use(router.allowedMethods());
+router.get('/about/:name?', ctx => {
+    const { name } = ctx.params;
+    // name의 존재 유무에 따라 다른 결과 출력
+    ctx.body = name ? `포스트 #${id}` : '포스트 아이디가 없습니다.';
 
-app.listen(4000, () => {
-    console.log('Listening to port 4000');
-});
+    // app 인스턴스에 라우터 적용
+    app.use(router.routes()).use(router.allowedMethods());
+
+    app.listen(4000, () => {
+        console.log('Listening to port 4000');
+    });
