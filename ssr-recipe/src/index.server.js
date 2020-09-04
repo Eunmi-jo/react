@@ -10,6 +10,9 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './modules';
 import PreloadContext from './lib/PreloadContext';
+import createSagaMiddleware from 'redux-saga';
+import rootReducer, { rootSaga } from './modules';
+
 
 // asset-manifest.json에서 파일 경로들을 조회합니다.
 const manifest = JSON.parse(
@@ -55,7 +58,12 @@ const serverRender = (req, res, next) => {
     // 이 함수는 404가 떠야 하는 상황에 404를 띄우지 않고 서버 사이드 렌더링을 해 줍니다.
 
     const context = {};
-    const store = createStore(rootReducer, applyMiddleware(thunk));
+    const sagaMiddleware = createSagaMiddleware();
+
+    const store = createStore(
+        rootReducer,
+        applyMiddleware(thunk, sagaMiddleware));
+    sagaMiddleware.run(rootSaga);
 
     const preloadContext = {
         done: false,
@@ -81,7 +89,7 @@ const serverRender = (req, res, next) => {
     const root = ReactDOMServer.renderToString(jsx); // 렌더링을 합니다.
     // JSON을 문자열로 변환하고 악성 스크립트가 실행되는 것을 방지하기 위해 <를 치환 처리
     // https://redux.js.org/recipes/server-rendering#security-considerations
-    const stateString = JSON.stringify(store.getState()).replace(/</g, ‘\\u003c‘);
+    const stateString = JSON.stringify(store.getState()).replace(/</g, '\\u003c');
     const stateScript = `<script>__PRELOADED_STATE__ =${stateString}</script>`; // 리덕스 초기 상태를 스크립트로 주입합니다.
 
     res.send(createPage(root, stateScript)); // 결과물을 응답합니다.
