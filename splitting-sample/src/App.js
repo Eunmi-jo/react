@@ -4,7 +4,7 @@ import './App.css';
 
 function App() {
   const onClick = () => {
-    notify();
+    import('./notify').then(result => result.default());
   };
   return (
     <div className="App">
