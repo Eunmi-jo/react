@@ -43,6 +43,7 @@ export const write = async ctx => {
     title,
     body,
     tags,
+    user: ctx.state.user,
   });
   try {
     await post.save();
@@ -75,9 +76,9 @@ export const list = async ctx => {
     const postCount = await Post.countDocuments().exec();
     ctx.set('Last-Page', Math.ceil(postCount / 10));
     ctx.body = posts.map(post => ({
-      …post,
+      ...post,
       body:
-        post.body.length < 200 ? post.body : </span><span class="co49">${</span><span class="cd2 co34">post</span><span class="cd2 co31">.</span><span class="cd2 co34">body</span><span class="cd2 co31">.</span><span class="cd2 co47">slice</span><span class="cd2 co33">(</span><span class="cd2 co32">0</span><span class="cd2 co33">,</span><span class="cd2 co31"> </span><span class="cd2 co32">200</span><span class="cd2 co33">)</span><span class="co33">}</span><span class="cd2 co31">...,
+        post.body.length < 200 ? post.body : `${post.body.slice(0, 200)}...`,
     }));
   } catch (e) {
     ctx.throw(500, e);
