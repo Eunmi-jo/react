@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
 import { check } from '../../modules/user';
-
+import { withRouter } from 'react-router-dom';
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
@@ -51,10 +51,9 @@ const RegisterForm = () => {
     // user 값이 잘 설정되었는지 확인
     useEffect(() => {
         if (user) {
-            console.log('check API 성공');
-            console.log(user);
+            history.push('/'); // 홈 화면으로 이동
         }
-    }, [user]);
+    }, [history, user]);
 
     return (
         <AuthForm
@@ -66,5 +65,5 @@ const RegisterForm = () => {
     );
 };
 
-export default RegisterForm;
+export default withRouter(RegisterForm);
 
