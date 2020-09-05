@@ -1,6 +1,7 @@
 import Post from '../../models/post';
 import mongoose from 'mongoose';
 import Joi from 'joi';
+import sanitizeHtml from 'sanitize-html';
 
 const { ObjectId } = mongoose.Types;
 
@@ -24,15 +25,15 @@ export const getPostById = (ctx, next) => {
   }
 };
 
-    /*  POST /api/posts
-  {
-    title: ‘제목’,
-    body: ‘내용’,
-    tags: [‘태그1’, ‘태그2’]
-  }
+/*  POST /api/posts
+{
+title: ‘제목’,
+body: ‘내용’,
+tags: [‘태그1’, ‘태그2’]
+}
 */
 export const write = async ctx => {
-    const schema = Joi.object().keys({
+  const schema = Joi.object().keys({
     // 객체가 다음 필드를 가지고 있음을 검증
     title: Joi.string().required(), // required()가 있으면 필수 항목
     body: Joi.string().required(),
@@ -41,7 +42,7 @@ export const write = async ctx => {
       .required(), // 문자열로 이루어진 배열
   });
 
-    // 검증하고 나서 검증 실패인 경우 에러 처리
+  // 검증하고 나서 검증 실패인 경우 에러 처리
   const result = Joi.validate(ctx.request.body, schema);
   if (result.error) {
     ctx.status = 400; // Bad Request
@@ -68,7 +69,7 @@ export const write = async ctx => {
   GET /api/posts?username=&tag=&page=
 */
 export const list = async ctx => {
-    // query는 문자열이기 때문에 숫자로 변환해 주어야 합니다.
+  // query는 문자열이기 때문에 숫자로 변환해 주어야 합니다.
   // 값이 주어지지 않았다면 1을 기본으로 사용합니다.
   const page = parseInt(ctx.query.page || '1', 10);
 
@@ -86,11 +87,11 @@ export const list = async ctx => {
 
   try {
     const posts = await Post.find(query)
-    .sort({ _id: -1 })
-    .limit(10)
-    .skip((page - 1) * 10)
-    .lean()
-    .exec();
+      .sort({ _id: -1 })
+      .limit(10)
+      .skip((page - 1) * 10)
+      .lean()
+      .exec();
     const postCount = await Post.countDocuments(query).exec();
     ctx.set('Last-Page', Math.ceil(postCount / 10));
     ctx.body = posts.map(post => ({
@@ -133,7 +134,7 @@ export const remove = async ctx => {
 */
 export const update = async ctx => {
   const { id } = ctx.params;
-    // write에서 사용한 schema와 비슷한데, required()가 없습니다.
+  // write에서 사용한 schema와 비슷한데, required()가 없습니다.
   const schema = Joi.object().keys({
     title: Joi.string(),
     body: Joi.string(),
@@ -141,7 +142,7 @@ export const update = async ctx => {
   });
 
 
-// 검증하고 나서 검증 실패인 경우 에러 처리
+  // 검증하고 나서 검증 실패인 경우 에러 처리
   const result = Joi.validate(ctx.request.body, schema);
   if (result.error) {
     ctx.status = 400; // Bad Request
