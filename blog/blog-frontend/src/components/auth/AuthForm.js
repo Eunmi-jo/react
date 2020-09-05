@@ -62,7 +62,7 @@ const AuthForm = () => {
                     placeholder="비밀번호"
                     type="password"
                 />
-                <Button cyan fullWidth>로그인</Button>
+                <Button cyan fullWidth style={{ marginTop: '1rem' }}>로그인</Button>
             </form>
             <Footer>
                 <Link to="/register">회원가입</Link>
