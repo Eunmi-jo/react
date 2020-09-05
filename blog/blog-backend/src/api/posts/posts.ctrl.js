@@ -57,7 +57,9 @@ export const write = async ctx => {
 */
 export const list = async ctx => {
   try {
-    const posts = await Post.find().exec();
+    const posts = await Post.find()
+    .sort({ _id: -1 })
+    .exec();
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);
@@ -119,7 +121,7 @@ export const update = async ctx => {
     ctx.body = result.error;
     return;
   }
-  
+
   try {
     const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
       new: true, // 이 값을 설정하면 업데이트된 데이터를 반환합니다.
