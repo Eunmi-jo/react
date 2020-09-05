@@ -182,8 +182,14 @@ export const update = async ctx => {
     return;
   }
 
+  const nextData = { ...ctx.request.body }; // 객체를 복사하고
+  // body 값이 주어졌으면 HTML 필터링
+  if (nextData.body) {
+    nextData.body = sanitizeHtml(nextData.body);
+  }
+
   try {
-    const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
+    const post = await Post.findByIdAndUpdate(id, nextData, {
       new: true, // 이 값을 설정하면 업데이트된 데이터를 반환합니다.
       // false일 때는 업데이트되기 전의 데이터를 반환합니다.
     }).exec();
@@ -196,6 +202,8 @@ export const update = async ctx => {
     ctx.throw(500, e);
   }
 };
+
+
 
 export const checkOwnPost = (ctx, next) => {
   const { user, post } = ctx.state;
