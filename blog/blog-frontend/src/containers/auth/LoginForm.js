@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { changeField, initializeForm, login } from '../../modules/auth';
@@ -41,6 +41,7 @@ const LoginForm = ({ history }) => {
         if (authError) {
             console.log('오류 발생');
             console.log(authError);
+            setError('로그인 실패');
             return;
         }
         if (auth) {
@@ -61,6 +62,7 @@ const LoginForm = ({ history }) => {
             form={form}
             onChange={onChange}
             onSubmit={onSubmit}
+            error={error}
         />
     );
 };
