@@ -50,6 +50,10 @@ a{
 }
 `;
 
+const ButtonWithMarginTop = styled(Button)`
+margin-top:1rem;
+`;
+
 const AuthForm = () => {
     return (
         <AuthFormBlock>
@@ -62,7 +66,9 @@ const AuthForm = () => {
                     placeholder="비밀번호"
                     type="password"
                 />
-                <Button cyan fullWidth style={{ marginTop: '1rem' }}>로그인</Button>
+                <ButtonWithMarginTop cyan fullWidth>
+                    로그인
+        </ButtonWithMarginTop>
             </form>
             <Footer>
                 <Link to="/register">회원가입</Link>
